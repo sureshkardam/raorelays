@@ -102,9 +102,9 @@
 											</label>                                    
                                             <select class="form-control" name="user_type" required>
                                               <option value="2">Sub Admin</option>
-                                              <option value="0">Sales</option>
-											  <option value="3">Raw Material</option>
-											  <option value="4">Production Management</option>
+                                              <option value="0">Sales Module</option>
+											  <option value="3">Raw Material Module</option>
+											  <option value="4">Production Module</option>
                                             </select>
                                         </div>
 											

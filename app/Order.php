@@ -81,6 +81,20 @@ class Order extends Model
     }
 	
 	
+	public static function getDisplayOrderID($order_id) {
+
+         $order=self::find($order_id);
+					
+					
+		if ($order) {
+				return $order->display_order_id;
+				}else{
+				return false;
+				}
+
+    }
+	
+	
     
     public function getProducts() {
 

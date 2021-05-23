@@ -22,9 +22,28 @@ class ActivityController extends Controller
         $this->middleware('auth');
     }
 	
+	/*
 	public static function save($data)
     {
       $activity=Activity::create($data);
+	  
+    }
+	*/
+	
+	public static function createEvent($module,$id,$type,$description)
+    {
+      
+	  
+	  $activity = Activity::create(array(
+							'module'=>$module,
+							'module_id'=>$id,
+							'event'=>$type,
+							'description'=>$description,
+							'created_by'=>Auth::user()->id,
+							));
+	  
+	  
+	  
 	  
     }
 	
@@ -40,7 +59,7 @@ class ActivityController extends Controller
 	
 	public function userlist(Request $request)
     {
-      $activities=Activity::where('module','=','user')->get();
+      $activities=Activity::where('module','=','User')->get();
 	  return view('admin.activity.user-list', compact('activities'));
 	  
 	  
@@ -48,7 +67,7 @@ class ActivityController extends Controller
     }
 	public function productlist(Request $request)
     {
-      $activities=Activity::where('module','=','product')->get();
+      $activities=Activity::where('module','=','Product')->get();
 	  return view('admin.activity.product-list', compact('activities'));
 	  
 	  
@@ -56,7 +75,7 @@ class ActivityController extends Controller
     }
 	public function orderlist(Request $request)
     {
-      $activities=Activity::where('module','=','order')->get();
+      $activities=Activity::where('module','=','Order')->get();
 	  return view('admin.activity.order-list', compact('activities'));
 	  
 	  

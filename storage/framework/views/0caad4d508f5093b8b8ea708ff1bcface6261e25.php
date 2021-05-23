@@ -50,7 +50,7 @@
 					
 					
 					
-              <img src="data:image/png;base64,{{$data}}"  width="200">
+              <img src="data:image/png;base64,<?php echo e($data); ?>"  width="200">
             </div>
                 </div>
             </div>
@@ -61,13 +61,14 @@
                     <h4 style="margin: 0;
                     font-size: 20px;
                     margin-top: 10px;">Address</h4>
-                    <p style="margin: 0; width: 230px; line-height: 24px;">{{ucwords($customer->contact_name)}} 
+                    <p style="margin: 0; width: 230px; line-height: 24px;"><?php echo e(ucwords($customer->contact_name)); ?> 
 					<br> 
-					{{$customer->registered_address}} ,
+					<?php echo e($customer->registered_address); ?> ,
 					<br> 
-					{{$customer->city}} , {{App\State::getName($customer->state)}}
+					<?php echo e($customer->city); ?> , <?php echo e(App\State::getName($customer->state)); ?>
+
 					<br> 
-					{{$customer->zip_code}} , India</p>
+					<?php echo e($customer->zip_code); ?> , India</p>
 
                 </div>
                    <div class="item-right-second-content" style="display: inline-block;
@@ -75,9 +76,9 @@
     text-align: right;
     vertical-align: top;">
                     <p style="font-size: 18px;
-                    font-weight: 600;">Invoice# <span class="value" style="font-weight: 400;">{{$order->display_order_id}}</span></p>
+                    font-weight: 600;">Invoice# <span class="value" style="font-weight: 400;"><?php echo e($order->display_order_id); ?></span></p>
                     <p style="font-size: 18px;
-                    font-weight: 600;">Date : <span class="value" style="font-weight: 400;">{{date('M\. d\, Y', strtotime($order->created_at))}}</span></p>
+                    font-weight: 600;">Date : <span class="value" style="font-weight: 400;"><?php echo e(date('M\. d\, Y', strtotime($order->created_at))); ?></span></p>
                 </div>
             </div>
         </div>
@@ -107,15 +108,15 @@
                     color: #656565;">DESCRIPTION</th>
                     
                 </tr>
-                @foreach($order->getProducts as $product)
+                <?php $__currentLoopData = $order->getProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 				<tr>
 					
-				   <td style="padding: 10px 12px;">{{$product->sku}}</td>
-                    <td style="padding: 10px 12px;"><b>{{$product->quantity}}</b></td>
-                    <td style="padding: 10px 12px;">{{$product->specification}}</td>
+				   <td style="padding: 10px 12px;"><?php echo e($product->sku); ?></td>
+                    <td style="padding: 10px 12px;"><b><?php echo e($product->quantity); ?></b></td>
+                    <td style="padding: 10px 12px;"><?php echo e($product->specification); ?></td>
                     
                 </tr>
-				@endforeach
+				<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
             </table>
     
@@ -136,4 +137,4 @@
     </div>
 </body>
 
-</html>
+</html><?php /**PATH D:\xampp\htdocs\raorelays\resources\views/pdf/invoice.blade.php ENDPATH**/ ?>

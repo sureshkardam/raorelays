@@ -49,16 +49,6 @@
     </div>
 @endif
 
-
-        <div class="form-group row">
-            <div class="form-group col-sm-12">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#general">General</a></li>
-                    <li><a data-toggle="tab" href="#option">Option</a></li>
-                   
-                </ul>
-            </div>
-        </div>
         <div class="form-default ">
             <form action="" id="popForm" method="post" enctype="multipart/form-data">
                 @csrf
@@ -86,11 +76,14 @@
 
 							
 							  <div class="form-group col-sm-6">
-                                  <label for="minimum_purchase" class="hello">Minimum Quantity
+                                  <label for="unit" class="hello">Unit
                                    <span style="color: red">*</span>
 								   </label>
                                
-                                <input type="text" name="minimum_purchase" class="form-control" value="{{$product->minimum_purchase}}" id="name" placeholder="Minimum Quantity" required>
+                                 <select name="unit" class="form-control select-form" required>
+                                        <option @if($product->unit == 1) selected @endif value="1">Meter</option>
+                                        <option @if($product->status == 2) selected @endif value="2">Gram</option>
+                                    </select>
                             </div>
 
 
@@ -104,72 +97,11 @@
                                 <input type="text" name="quantity" class="form-control" value="{{$product->quantity}}" id="name" placeholder="Quantity" required>
                             </div>
                
-                            <div class="form-group col-sm-6">
-
-                                <label for="tax_rate" class="hello">Tax Rate
-                                     <span style="color: red">*</span>   
-                                    </label> 
-                                <!-- Dimension (L X W X H) -->
-                                <input type="text" name="tax_rate" class="form-control" value="{{$product->tax_rate}}" placeholder="Tax Rate" required>
-                            </div>
-                            <div class="form-group col-sm-6">
-
-                                <label for="hsn_code" class="hello">HSN Code
-                                     <span style="color: red">*</span>   
-                                    </label> 
-                                <!-- Dimension (L X W X H) -->
-                                <input type="text" name="hsn_code" class="form-control" value="{{$product->hsn_code}}" placeholder="HSN Code" required>
-                            </div>
-
-
-                   
-                            <div class="form-group col-sm-6">
-
-                                <label for="weight" class="hello">Weight
-                                      <span style="color: red">*</span>  
-                                    </label>
-                               
-                                @if(Session::has('ProductcreateErrors')) @foreach(Session::get('ProductcreateErrors')->get('Weight') as $errorMessage)
-                                <span class="label label-danger">{{$errorMessage}}</span> @endforeach @endif
-                                <input type="text" name="weight" class="form-control" value="{{$product->weight}}" placeholder="" required>
-                            </div>
-                       
-                            <div class="form-group col-sm-6">
-                                @if(Session::has('ProductcreateErrors')) @foreach(Session::get('ProductcreateErrors')->get('Sku') as $errorMessage)
-                                <span class="label label-danger">{{$errorMessage}}</span> @endforeach @endif
-                                <label for="first name" class="hello">SKU
-                                        <span style="color: red">*</span>
-                                    </label>
-                                <!-- SKU -->
-                                <input type="text" name="sku" class="form-control" id="name" value="{{$product->sku}}" placeholder="SKU" required>
-                            </div>
-                            <div class="form-group col-sm-6">
-
-
-                                <label for="first name" class="hello">Sort Order
-                                       
-                                    </label>
-                                <!-- Sort Order -->
-                                <input type="text" name="sort_order" class="form-control" value="{{$product->sort_order}}"  placeholder="Sort Order">
-                            </div>
+                           
                
-                           <div class="form-group col-sm-12">
-                                @if(Session::has('ProducteditErrors')) @foreach(Session::get('ProducteditErrors')->get('Categories') as $errorMessage)
-                                <span class="label label-danger">{{$errorMessage}}</span> @endforeach @endif
-                                <label class="input-label">Product Categories<span style="color: red">*</span></label>
-                                <select class="form-control select-form height-set-select" name="category_id[]" multiple required>
-                                        @foreach($categories as $category)
-                                        <option value="{{$category->category_id}}" @if(in_array($category->category_id,$product_cats)) selected @endif>{{$category->name}}</option>
-                                        @endforeach
-                                    </select>
-                            </div>
+                           
           
-                            <div class="form-group col-sm-12">
-                                @if(Session::has('ProducteditErrors')) @foreach(Session::get('ProducteditErrors')->get('Description') as $errorMessage)
-                                <span class="label label-danger">{{$errorMessage}}</span> @endforeach @endif
-                                <label class="input-label">Description<span style="color: red">*</span></label>
-                                <textarea rows="4" id="description" cols="50" class="form-control" name="description" required>{{$product->description}}</textarea>
-                            </div>
+                          
                      
                             <div class="form-group col-sm-12">
                                 <!-- Status --><label for="first name" class="hello">Status
@@ -180,126 +112,6 @@
                                         <option @if($product->status == 0) selected @endif value="0">Disabled</option>
 										<option @if($product->status == 2) selected @endif value="2">Archived</option>
                                     </select>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- option editing starting here -->
-                    <div id="option" class="tab-pane fade">
-                        <div class="option-section">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="table option">
-                                        @if($product->getOptionValues->count() > '0')
-                                        <table class="tbllOption table table-bordered has-option">
-                                            <thead>
-                                               <th>Select Option<span style="color: red"> *</span></th>
-                                                <th>Select Option values<span style="color: red"> *</span></th>
-                                                <th> </th>
-                                            </thead>
-                                            <tbody>
-                                                @foreach($product->getOptionValues as $editOption)
-                                                <tr class="clonemeOption">
-                                                    <td class="attribute-box">
-                                                        <div class="input-attribute">
-                                                            <select name="option[]" class="option_list">
-                                                                    <option value="">Select Option</option>
-                                                                    @foreach($options as $option)
-                                                                    <option @if($editOption->option_id == $option->id) selected @endif value="{{$option->id}}">{{$option->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                        </div>
-                                                    </td>
-                                                    <td class="test">
-
-
-                                                        <div class="select-value-table">
-                                                            <select name="option_value[]" class="dynamic_option_value">
-                                                                                        @foreach($master_option_values as $master_option_value)
-                                                                                        @if($editOption->option_value_id == $master_option_value->id)
-                                                                                        <option selected value="{{$master_option_value->id}}">{{$master_option_value->name}}</option>
-                                                                                        @endif
-                                                                                        @endforeach
-                                                                                    </select>
-                                                        </div>
-                                                    </td>
-
-
-
-                                                    </td>
-                                                    <td align="right">
-                                                        <div class="minus-btn-table">
-                                                            <div class="rmv-cloneOption">-</div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
-                                        @else
-                                        <table class="tbllOption table table-bordered no-option">
-                                            <thead>
-                                                <th>Select Option</th>
-                                                <th>Select option values</th>
-                                                <th> </th>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="clonemeOption">
-                                                    <td class="attribute-box">
-                                                        <div class="input-attribute">
-                                                            <select name="option[]" class="option_list">
-                                                                    @foreach($options as $option)
-                                                                    <option value="{{$option->id}}">{{$option->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                        </div>
-                                                    </td>
-                                                    <td class="test">
-                                                        <div class="table-textarea">
-                                                            <!-- change -->
-                                                            <table class="table table-bordered">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Value</th>
-
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr>
-                                                                        <td width="120px">
-                                                                            <div class="select-value-table">
-                                                                                <select name="option_value[]" class="dynamic_option_value">
-                                                                                        <option value="">Select Value</option>
-                                                                                    </select>
-                                                                            </div>
-                                                                        </td>
-
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                    <td align="right">
-                                                        <div class="minus-btn-table">
-                                                            <div class="rmv-cloneOption">-</div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        @endif
-                                        <table class="table table-bordered" style="margin-top: -20px; border-top: none;">
-                                            <tbody>
-                                                <tr align="right">
-                                                    <td style="border-top: none;">
-                                                        <div class="plus-btn-table">
-                                                            <div class="addjobOption">+</div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

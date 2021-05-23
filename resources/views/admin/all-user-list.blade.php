@@ -3,11 +3,11 @@
 <div class="breadcumbs-area with-label">
                     <ul>
                         <li class="title-main">
-                            <h4>Users</h4>
+                            <h4>All Users</h4>
                         </li>
                         <li class="link-home"><a href="#."><i class="fa fa-home"></i></a></li>
                         <li class="link-home"><a href="#.">Home</a></li>
-                        <li class="link-page"><a href="#.">Users List</a></li>
+                        <li class="link-page"><a href="#.">All Users</a></li>
                     </ul>
                     <div class="create-button">
                         <a title="Add New" href="{{route('create.user')}}"><i class="fa fa-plus"></i> Create User</a>
@@ -47,7 +47,7 @@
 
                     <div class="table-main-div">
                         <div class="table-header">
-                            <h2><strong>Users List</strong></h2>
+                            <h2><strong>All Users</strong></h2>
 							<div class="create-button">
                         <a title="Add New" href="{{route('create.user')}}"><i class="fa fa-plus"></i> Create User</a>
                        
@@ -103,17 +103,20 @@
 										</td>
 										<td>
 										
-										@if($user->user_type == 0) Sales @endif
 										@if($user->user_type == 2) Sub Admin @endif
-										@if($user->user_type == 3) Raw Material @endif
-										@if($user->user_type == 4) Production @endif
-										
-										
+										@if($user->user_type == 0) Sales Module @endif
+										@if($user->user_type == 3) Raw Material Module @endif
+										@if($user->user_type == 4) Production Module @endif
 										
 										</td>
 										
+										<td>
 										
-										<td>{{ $user->status ? 'Enabled' : 'Disabled' }}</td>
+										@if($user->status == 0) Disabled @endif
+										@if($user->status == 1) Enabled @endif
+										@if($user->status == 2) Archived @endif
+										
+										</td>
 										
 										
 										<td>{{date('M\. d\, Y', strtotime($user->created_at))}}</td>

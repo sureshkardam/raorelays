@@ -76,6 +76,15 @@ class AuthController extends Controller
                       
                         Auth::login($user_email);
 							
+						//event
+						$event_description= 'User Login : '.Auth::user()->name;
+						\App\Http\Controllers\ActivityController::createEvent('User',Auth::user()->id,'Login',$event_description); 
+						//event end
+						
+						
+						
+						
+						
 						if(Auth::user()->user_type =='1')
 						{
 							
@@ -111,8 +120,17 @@ class AuthController extends Controller
 						}
                 
                 
+						}else
+						{
+						session()->flash('error', 'Please check the email and password.');
+						return redirect()->back();
 						}
-				}
+				}else
+					
+					{
+						session()->flash('error', 'Please check the email and password.');
+						return redirect()->back();
+					}
 			}
   	
 		}

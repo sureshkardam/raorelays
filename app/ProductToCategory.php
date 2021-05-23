@@ -1,6 +1,8 @@
 <?php
 namespace App;
 use Searchable;
+use App\Product;
+use App\Category;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,4 +26,22 @@ class ProductToCategory extends Model
 	 * @var array
 	 */
 	protected $hidden = array();
+	
+	public static function getProductCategoryByID($product_id)
+    {
+	
+		$category=Self::where('product_id','=',$product_id)->first();
+		if($category)
+		{
+		return Category::getName($category->category_id);
+		}else
+			
+			{
+				return false;
+			}
+		
+	}
+	
+	
+	
 }

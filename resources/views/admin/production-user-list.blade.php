@@ -3,14 +3,14 @@
 <div class="breadcumbs-area with-label">
                     <ul>
                         <li class="title-main">
-                            <h4>Production Management User</h4>
+                            <h4>Production Module Users</h4>
                         </li>
                         <li class="link-home"><a href="#."><i class="fa fa-home"></i></a></li>
                         <li class="link-home"><a href="#.">Home</a></li>
-                        <li class="link-page"><a href="#.">Production Management User List</a></li>
+                        <li class="link-page"><a href="#.">Production Module Users</a></li>
                     </ul>
                     <div class="create-button">
-                        <a title="Add New" href="{{route('create.user')}}"><i class="fa fa-plus"></i> Create User</a>
+                        <a title="Add New" href="{{route('create.user')}}"><i class="fa fa-plus"></i>Create User</a>
                         <a href="#." class="filter-button"><i class="fa fa-filter"></i> Filter</a>
                     </div>
                 </div>
@@ -47,7 +47,7 @@
 
                     <div class="table-main-div">
                         <div class="table-header">
-                            <h2><strong>Production Management User List</strong></h2>
+                            <h2><strong>Production Module Users</strong></h2>
                         </div>
                         <div class="tableBody">
                             <div class="table-responsive">

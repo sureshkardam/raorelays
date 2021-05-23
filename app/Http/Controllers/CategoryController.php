@@ -17,9 +17,27 @@ class CategoryController extends Controller
 {
 
     public function showCategory(){
-        $data['categories']=Category::getCategory();
+        $data['categories']=Category::getMainCategory();
 
          return view('admin.category.list',$data);    
+    }
+
+public function showSubCategory(){
+        $data['categories']=Category::getChildCategory();
+
+         return view('admin.category.list-sub',$data);    
+    }
+	
+	
+public function subCategory(Request $request,$id){
+		
+		
+		
+		$data['categories'] = Category::where('parent_id',$id)->where('status','=',1)->get();
+		
+		
+
+         return view('admin.category.list-sub',$data);    
     }
 
 
@@ -44,12 +62,14 @@ class CategoryController extends Controller
          $sort_order = $request->input('sort_order');
          $status = $request->input('status');
 		 $parent_id = $request->input('parent_id');
+		 $code = $request->input('code');
         
          
          
              $applicantMainInfo = array(
                 'Name' => $name,
                 'Description' => $description,
+				 'Code' => $code,
                 'Status' => $status,
 
             );
@@ -59,8 +79,9 @@ class CategoryController extends Controller
 
 
                 $appInfoValidate =  Validator::make($applicantMainInfo, array(
-                'Name' =>  'required|string|min:4|max:250',
+                'Name' =>  'unique:category|required|string|min:1|max:250',
                 'Description' => 'required',
+				'Code' => 'required',
                
                    ));
 
@@ -87,7 +108,8 @@ return redirect()->back()->withInput($request->input())->with('CategoryCreateErr
 
                    $categories= Category::create(array('name'=>$name,
                          'created_by'=>Auth::user()->id,
-                         'parent_id'=>$parent_id,
+                         'parent_id'=>($parent_id ? $parent_id : '0'),
+						 'code'=>$code,
 						 'description'=>$description,
                          'sort_order'=>$sort_order,
                          'status'=>$status
@@ -130,12 +152,133 @@ return redirect()->back()->withInput($request->input())->with('CategoryCreateErr
 
                   }
                
-              return redirect()->route('admin.category.list')->with('success', 'Category Created!');
+              return redirect()->route('admin.category.list')->with('success', 'Product Created!');
 
               }else{
 
                 
                 return view('admin.category.create',$data);         
+              }
+
+        
+    }
+	public function createSubCategory(Request $request){
+
+            
+            
+            $data['categories']=Category::getMainCategory();
+            
+            
+             if ($request->isMethod('post')) { 
+
+
+               
+
+               $errors      = false;
+               $errorMsg    = array();
+         
+         
+         $name = $request->input('name');
+         $description = $request->input('description');
+         $sort_order = $request->input('sort_order');
+         $status = $request->input('status');
+		 $parent_id = $request->input('parent_id');
+		 $code = $request->input('code');
+        
+         
+         
+             $applicantMainInfo = array(
+                'Name' => $name,
+                'Description' => $description,
+				 'Code' => $code,
+                'Status' => $status,
+
+            );
+
+
+
+
+
+                $appInfoValidate =  Validator::make($applicantMainInfo, array(
+                'Name' =>  'unique:category|required|string|min:1|max:250',
+                'Description' => 'required',
+				'Code' => 'required',
+               
+                   ));
+
+
+      if ($appInfoValidate->fails()) {
+                $errors = true;
+            }
+           
+           
+            if ($errors) {
+
+
+              
+                $appInfoErrorMsg='';
+                 if ($appInfoValidate->messages())
+                    $appInfoErrorMsg = $appInfoValidate->messages();
+                    session()->flash('error', 'Please check the form values!');
+return redirect()->back()->withInput($request->input())->with('CategoryCreateErrors', $appInfoErrorMsg);
+
+            }
+           
+            else {
+
+
+                   $categories= Category::create(array('name'=>$name,
+                         'created_by'=>Auth::user()->id,
+                         'parent_id'=>($parent_id ? $parent_id : '0'),
+						 'code'=>$code,
+						 'description'=>$description,
+                         'sort_order'=>$sort_order,
+                         'status'=>$status
+                               
+                          ));
+
+
+
+
+
+
+
+                      
+
+
+                    if($categories->id){
+                            $level = 0;
+                            $category_paths=CategoryPath::where('category_id',$request->parent_id)->orderBy('level', 'ASC')->get();
+                            foreach ($category_paths as $key => $category) {
+                                $insert_cat_path=[
+                                    'category_id'=>$categories->id,
+                                    'path_id'=>$category->path_id,
+                                    'category_name'=>$category->category_name,
+                                    'level'=>$level,
+                                ];
+
+                                $cat_path1=CategoryPath::create($insert_cat_path);
+                                $level++;
+                            }
+
+                            $insert_cat_path1=[
+                                    'category_id'=>$categories->id,
+                                    'path_id'=>$categories->id,
+                                    'category_name'=>$categories['name'],
+                                    'level'=>$level,
+                                ];
+
+                                $cat_path2=CategoryPath::create($insert_cat_path1);
+                    }
+
+                  }
+               
+              return redirect()->route('admin.category.list')->with('success', 'Product Created!');
+
+              }else{
+
+                
+                return view('admin.category.create-sub',$data);         
               }
 
         
@@ -164,18 +307,20 @@ return redirect()->back()->withInput($request->input())->with('CategoryCreateErr
 			   $sort_order = $request->input('sort_order');
 			   $status = $request->input('status');
 			   $parent_id = $request->input('parent_id');
-			  
+			   $code = $request->input('code');
 			   $applicantMainInfo = array(
                 'Name' => $name,
                 'Description' => $description,
+				'Code' => $code,
                  );
 			
 			
 			
 			$appInfoValidate =  Validator::make($applicantMainInfo, array(
 
-                'Name' =>    'required|string|min:4|max:250',
+                'Name' =>    'required|string|min:1|max:250',
                 'Description' => 'required',
+				'Code' => 'required',
                 
             )); 
 			
@@ -204,7 +349,8 @@ return redirect()->back()->withInput($request->input())->with('CategoryeditError
 			 
 
 				$data['category_data']->name = $name;
-				$data['category_data']->parent_id =$parent_id;
+				$data['category_data']->parent_id =($parent_id ? $parent_id : '0');
+				$data['category_data']->code =$code;
 				$data['category_data']->description = $description;
 				$data['category_data']->sort_order = $sort_order;
                	$data['category_data']->status = $status;
@@ -324,7 +470,13 @@ return redirect()->back()->withInput($request->input())->with('CategoryeditError
             }    
 
 
+public function getSubCategory(Request $request)
 
+	{
+	$cat_id = $request->cat_id;
+	$sub_cat = Category::where('parent_id', '=',$cat_id)->get();
+	echo json_encode($sub_cat);
+	}
 
  
 }

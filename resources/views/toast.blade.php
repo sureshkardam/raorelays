@@ -1,3 +1,19 @@
+				
+				@if ($message = Session::get('credential_error_page'))
+                <script>
+                    $(document).ready(function() {
+						$.toast({
+							heading: '{{ $message }}',
+                          				
+							position: 'top-center',
+							icon: 'error',
+							 hideAfter: 5000 
+						})
+					});
+      
+				   </script>
+			    @endif 
+				
 				@if ($message = Session::get('success'))
                 <script>
                     $(document).ready(function() {

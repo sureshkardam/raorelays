@@ -5,6 +5,7 @@ use Searchable;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 use App\Product;
+use App\MaterialProduct;
 use App\ProductToCategory;
 
 class Category extends Model
@@ -12,6 +13,7 @@ class Category extends Model
 
 	protected $fillable = array('name',
 		                                                    'parent_id',
+															'code',
 															'description',
 															'sort_order',
 															 'status',
@@ -108,7 +110,21 @@ public static function getCreated($id)
 	}
 
 
-
+	public static function getRow($id)
+	{
+	
+	$category=Self::find($id);
+	if($category)
+	{
+		return $category;
+	}else
+		
+		{
+		
+		return false;
+		}
+	
+	}
 
 	public static function getProfile($id)
 	{
@@ -117,6 +133,55 @@ public static function getCreated($id)
 	if($category)
 	{
 		return $category->name;
+	}else
+		
+		{
+		
+		return false;
+		}
+	
+	}
+	
+	
+	public static function getRootCategory()
+	{
+	
+	$category=Self::where('parent_id','=',0)->get();
+	if($category)
+	{
+		return json_encode($category);
+	}else
+		
+		{
+		
+		return false;
+		}
+	
+	}
+	
+	public static function getMainCategory()
+	{
+	
+	$category=Self::where('parent_id','=',0)->get();
+	if($category)
+	{
+		return $category;
+	}else
+		
+		{
+		
+		return false;
+		}
+	
+	}
+	
+	public static function getChildCategory()
+	{
+	
+	$category=Self::where('parent_id','<>',0)->get();
+	if($category)
+	{
+		return $category;
 	}else
 		
 		{
@@ -150,6 +215,37 @@ public static function getCreated($id)
 					{
 						
 						$result[]=Product::where('id','=',$product->product_id)->first();
+						
+						//$data['product'] =$result; 
+						
+						
+					}
+					
+					return $result;
+		 }else
+		{
+					return false;
+
+		}
+		
+		
+		
+    }
+	
+	public static function getMaterialProducts($cat_id)
+    {
+       
+	   
+	   //$data=[];
+		//$products =$this->hasMany('\App\ProductToCategory','category_id','id');
+		$products =ProductToCategory::where('category_id','=',$cat_id)->get();
+		$result=[];
+		if($products)
+		{
+					foreach($products as $product)
+					{
+						
+						$result[]=MaterialProduct::where('id','=',$product->product_id)->first();
 						
 						//$data['product'] =$result; 
 						

@@ -24,7 +24,9 @@ Route::any('login','AuthController@login')->name('login');
 
 Route::group(['middleware' => 'auth'], function () {
 	
-Route::get('/admin/print/invoice/{id}','PdfController@printInvoice')->name('print.invoice');	
+Route::get('/admin/print/pdf/{id}{type}','PdfController@printPdf')->name('print.pdf');	
+
+Route::get('/admin/print/invoice/{id}','PdfController@printinvoice')->name('print.invoice');	
 	
 	
 
@@ -87,6 +89,19 @@ Route::get('/plant/detail','CompanyController@getPlant')->name('plant.detail');
 Route::post('/plant/create','CompanyController@createPlant')->name('admin.plant.create');
 Route::post('/plant/edit/{id}','CompanyController@editPlant')->name('admin.plant.edit');
 Route::get('/plant/delete/{id}','CompanyController@deletePlant')->name('admin.plant.delete');
+
+
+//supplier
+
+Route::get('/supplier','SupplierController@supplierList')->name('admin.supplier.list');
+
+Route::get('/supplier/detail','SupplierController@getSupplier')->name('supplier.detail');
+
+Route::post('/supplier/create','SupplierController@createSupplier')->name('admin.supplier.create');
+Route::post('/supplier/edit/{id}','SupplierController@editSupplier')->name('admin.supplier.edit');
+Route::get('/supplier/delete/{id}','SupplierController@deleteSupplier')->name('admin.supplier.delete');
+
+
 
 
 
@@ -158,18 +173,45 @@ Route::get('/delete/product/{id}','ProductController@deleteProduct')->name('admi
 
 
 Route::get('/get/product','ProductController@getProduct')->name('admin.get.product');
-Route::get('/get/subproduct','ProductController@getSubProduct')->name('admin.get.subproduct');
+Route::get('/get/material/product','MaterialProductController@getProduct')->name('admin.get.material.product');
+
+
+Route::get('/get/supplier/order','MaterialProductController@getSupplierOrder')->name('admin.get.supplier.order');
+
+Route::get('/get/supplier/order/product','MaterialProductController@getSupplierOrderProduct')->name('admin.get.supplier.order.product');
+
+Route::any('/get/purchase/order/product/{id}','MaterialProductController@getPurchaseOrder')->name('admin.get.purchase.order.product');
+
+Route::get('/get/subproduct','CategoryController@getSubCategory')->name('admin.get.subcategory');
 Route::get('/get/customer','CustomerController@getCustomer')->name('admin.get.customer');
 
 
 
 //Category
 Route::get('/category','CategoryController@showCategory')->name('admin.category.list');
+Route::get('/sub/category','CategoryController@showSubCategory')->name('admin.sub.category.list');
 Route::get('/create/category','CategoryController@createCategory')->name('admin.category.create');
 Route::post('/create/category','CategoryController@createCategory')->name('admin.category.create');
+
+Route::get('/create/sub/category','CategoryController@createSubCategory')->name('admin.sub.category.create');
+Route::post('/create/sub/category','CategoryController@createSubCategory')->name('admin.sub.category.create');
+
+
+Route::get('/material/relation/{id}', 'MaterialProductController@relation')->name('admin.material-relation');
+Route::post('/material/relation/{id}', 'MaterialProductController@relation')->name('admin.material-relation');
+
+
 Route::get('/edit/category/{id}', 'CategoryController@editCategory')->name('admin.category.edit');
 Route::post('/edit/category/{id}', 'CategoryController@editCategory')->name('admin.category.edit');
 Route::get('/delete/category/{id}','CategoryController@deleteCategory')->name('admin.category.delete');
+
+
+Route::post('/sub/category/list/{id}','CategoryController@subCategory')->name('admin.subcategory.category.list');
+Route::get('/sub/category/list/{id}','CategoryController@subCategory')->name('admin.subcategory.category.list');
+
+
+Route::post('/sub/category/product/list/{id}','MaterialProductController@subCategoryProduct')->name('admin.subcategory.product.list');
+Route::get('/sub/category/product/list/{id}','MaterialProductController@subCategoryProduct')->name('admin.subcategory.product.list');
 
 
 //Material Catalog
@@ -192,6 +234,46 @@ Route::post('/create/material/product','MaterialProductController@createProduct'
 Route::get('/edit/material/product/{id}', 'MaterialProductController@editProduct')->name('admin.material.product.edit');
 Route::post('/edit/material/product/{id}', 'MaterialProductController@editProduct')->name('admin.material.product.edit');
 Route::get('/delete/material/product/{id}','MaterialProductController@deleteProduct')->name('admin.material.product.delete');
+
+
+
+Route::any('/material/product/purchase', 'MaterialProductController@purchase')->name('admin.material.purchase');
+
+
+
+Route::any('/material/product/purchase/list','MaterialProductController@purchaseList')->name('admin.material.purchase.list');
+
+
+Route::any('/material/product/request', 'MaterialProductController@requestRaw')->name('admin.material.request');
+
+Route::any('/material/product/request/list', 'MaterialProductController@requestRawList')->name('admin.material.request.list');
+
+Route::any('/material/product/dispatch','MaterialProductController@dispatchRaw')->name('admin.material.dispatch');
+
+
+Route::any('/material/request/job/work', 'MaterialProductController@requestJobWork')->name('admin.material.request.jobwork');
+
+Route::any('/material/request/job/work/list', 'MaterialProductController@requestJobWorkList')->name('admin.material.request.jobwork.list');
+
+
+
+Route::any('/material/product/receiving/job/work','MaterialProductController@recieveJobWork')->name('admin.material.receiving.jobwork');
+
+
+Route::post('/material/product/receiving', 'MaterialProductController@receiving')->name('admin.material.receiving');
+Route::get('/material/product/receiving','MaterialProductController@receiving')->name('admin.material.receiving');
+
+Route::post('/material/product/receiving/save','MaterialProductController@saveReceiving')->name('admin.material.receiving.save');
+
+
+
+Route::post('/material/product/requisition', 'MaterialProductController@requisition')->name('admin.material.requisition');
+Route::get('/material/product/requisition','MaterialProductController@requisition')->name('admin.material.requisition');
+
+//Route::get('//material/product/purchase/save','MaterialProductController@savePurchase')->name('admin.material.purchase.save');
+Route::post('/material/product/purchase/save','MaterialProductController@savePurchase')->name('admin.material.purchase.save');
+
+
 
 
 

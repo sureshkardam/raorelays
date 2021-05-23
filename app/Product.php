@@ -58,6 +58,22 @@ class Product extends Model
 	
 	 }
 	 
+	  public static function getHSN($id)
+	{
+	
+	$attr=Self::find($id);
+	if($attr)
+	{
+		return $attr->hsn_code;
+	}else
+		
+		{
+		
+		return false;
+	 	}
+	
+	 }
+	 
 	  public static function getSiblings($id)
 	  {
 	

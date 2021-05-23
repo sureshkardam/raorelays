@@ -121,7 +121,7 @@
 						
 						
 	                </div>
-	            </div>
+	            
 
 	            	<!-- step 2 Here -->
 	            <div class="panel panel-primary setup-content" id="step-2">
@@ -468,79 +468,29 @@ function addDisable()
 $(document).ready(function() {
     var count = 1;
     $("button.addBtn").click(function() {
-        $("#inputtext").append("<div class='dynamic'><div class='row'><div class='col-sm-2 first'><input type='text' class='suggestion' value='' placeholder='Enter Product' name='product_name' required  /></div><div class='col-sm-3'><select class='sub form-control' name='product_ids[]' required></select></div><div class='col-sm-2'><input type='text' placeholder='Qty' name='qty[]' required  /></div><div class='col-sm-2'><input type='text' name='specification[]' placeholder='Specification' /></div><div class='col-sm-2'><input placeholder='Comment' type='text' name='comment[]' /></div><div class='col-sm-1 last'><button class='removeArea' type='button'>Remove</button></div></div></div>");
+		//$(document).on('click', 'button.addBtn', function() {  
+		
+        $("#inputtext").append("<div class='dynamic'><div class='row'><div class='col-sm-2 first'><select class='sub form-control' id='"+count+"' onclick='fill_sub(this)' name='category[]' ></select></div><div class='col-sm-3'><select class='sub form-control' id='parent-"+count+"' name='parent_id[]' required></select></div><div class='col-sm-2'><input type='text' placeholder='Qty' name='qty[]' required  /></div><div class='col-sm-2'><input type='text' name='specification[]' placeholder='Specification' /></div><div class='col-sm-2'><input placeholder='Comment' type='text' name='comment[]' /></div><div class='col-sm-1 last'><button class='removeArea' type='button'>Remove</button></div></div></div>");
 
-        count += 1;
-
-        $(".suggestion").autocomplete({
-            source: function(request, response) {
-                $.ajax({
-                    url: "{{route('admin.get.product')}}",
-                    data: {
-                        q: request.term
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        console.log(data);
-                        response(data);
-                    }
-                });
-
-            },
-            minLength: 3,
-            select: function(event, ui) {
-
-                $(this).closest('.dynamic').find('input[name="product_name"]').val(ui.item.label);
-                
-				
-								product_id=ui.item.value;
-								my_block=$(this).closest('.dynamic');
-								
-								//alert(my_block);
-								
-							if(product_id){	
-								
-								$.ajax({
-									url: "{{route('admin.get.subproduct')}}",
-									data: {
-										product_id: product_id
-									},
-									dataType: "json",
-									success: function(data) {
-												my_block.find('select').empty();
-															   
-												$.each(data, function(key, value) {
+        
+		var data=<?php print_r($main_category);?>
+		
+		$.each(data, function(key, value) {
 						
-							my_block.find('select').append('<option value="'+value.id+'">'+value.code+'</option>');
+	   //main.append('<option value="'+value.id+'">'+value.name+'</option>');
+	   
+	   $('#' + count).append('<option value="'+value.id+'">'+value.name+'</option>');
+							
 												});
-													   
-													
-									}
-							});
-								
-							}else{
-												my_block.find('select').empty();
-											   
-											}   	
-								
-								
-						
-														
-				
-				
-				
-                return false;
-            },
+   
+   
+   count += 1;
+   
+   });
 
-
-
-        });
-
-
-
-    });
-
-
+	
+	
+	
 
     $("#inputtext").on("click", ".removeArea", function(event) {
         $(this).closest('.dynamic').remove();
@@ -552,6 +502,46 @@ $(document).ready(function() {
 
 })
 </script>
+<script type="text/javascript">
+function fill_sub(param)
+{
+	
+	
+	var count = $(param).attr('id');
+	
+	var cat_id=param.value;
+	
+	if(cat_id){	
+								
+					$.ajax({
+					url: "{{route('admin.get.subcategory')}}",
+					data: {
+					cat_id: cat_id
+					},
+					dataType: "json",
+					success: function(data) {
+						$('#parent-' + count).empty();					
+						$.each(data, function(key, value) {
+						$('#parent-' + count).append('<option value="'+value.id+'">'+value.name+'</option>');
+						});
+							
+					}
+							});
+								
+		}else{
+			$('#parent-' + count).empty();
+											   
+		}   	
+	
+	
+
+	
+}
+
+
+
+</script>
+
 <style>
 .header{
 	display:none;

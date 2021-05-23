@@ -132,7 +132,7 @@
 												<tr>
                                                     <td>Invoice</td>
                                                   
-                                                    <td align="right"> <a href="{{route('print.invoice',$order->id)}}"><i class="fa fa-print" ></i>Print</a>
+                                                    <td align="right"> <a href="{{route('print.invoice',['id'=>$order->id])}}"><i class="fa fa-print" ></i>Print</a>
                                                     </td>
 													
 													

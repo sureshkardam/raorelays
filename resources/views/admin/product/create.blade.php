@@ -24,15 +24,7 @@
         <strong>{{$errors->first('file')}}</strong>
     </span>
 @endif
-        <div class="form-group row">
-            <div class="form-group col-sm-12">
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#general">Main</a></li>
-                    <li><a data-toggle="tab" href="#option">Sub Product</a></li>
-                    
-                </ul>
-            </div>
-        </div>
+      
         <div class="form-default ">
             <form class="add-patient-form" method="post" action="{{route('admin.product.create')}}" enctype="multipart/form-data">
                 @csrf
@@ -44,7 +36,7 @@
                            
 
                    
-                            <div class="form-group col-sm-12">
+                            <div class="form-group col-sm-6">
 
                                 @if(Session::has('ProductcreateErrors')) @foreach(Session::get('ProductcreateErrors')->get('Name') as $errorMessage)
                                 <span class="label label-danger">{{$errorMessage}}</span> @endforeach @endif
@@ -56,36 +48,14 @@
                                 <input type="text" name="name" class="form-control" value="{{old('name')}}" id="name" placeholder="Product Name" required>
                             </div>
 
-                            
-
-							
-							 
-
-
-                           
-               
-                           
                             <div class="form-group col-sm-6">
-
-                                <label for="hsn_code" class="hello">HSN Code
-                                     <span style="color: red">*</span>   
-                                    </label> 
-                                <!-- Dimension (L X W X H) -->
-                                <input type="text" name="hsn_code" class="form-control" value="{{old('hsn_code')}}" placeholder="HSN Code" required>
-                            </div>
-
-
-                   
-                         
-                       
-                            <div class="form-group col-sm-6">
-                                @if(Session::has('ProductcreateErrors')) @foreach(Session::get('ProductcreateErrors')->get('Sku') as $errorMessage)
+                                @if(Session::has('ProductcreateErrors')) @foreach(Session::get('ProductcreateErrors')->get('Code') as $errorMessage)
                                 <span class="label label-danger">{{$errorMessage}}</span> @endforeach @endif
                                 <label for="first name" class="hello">Product Code
                                         <span style="color: red">*</span>
                                     </label>
                                 <!-- SKU -->
-                                <input type="text" name="sku" class="form-control" id="name" value="{{old('sku')}}" placeholder="SKU" required>
+                                <input type="text" name="code" class="form-control" id="code" value="{{old('code')}}" placeholder="Code" required>
                             </div>
                            
 							
@@ -101,8 +71,20 @@
 								
                             </div>
 							
-							
-							
+							 <div class="form-group col-sm-6">
+                                @if(Session::has('ProductcreateErrors')) @foreach(Session::get('ProductcreateErrors')->get('Categories') as $errorMessage)
+                                <span class="label label-danger">{{$errorMessage}}</span> @endforeach @endif
+
+                                <label for="category" class="category">Select Category
+                                        <span style="color: red">*</span>
+                                    </label>
+                                <select class="form-control select-form" name="category_id[]" required>
+                                        <option value="">Select Parent or leave blank for root category</option>
+										@foreach($categories as $category)
+                                        <option value="{{$category->category_id}}">{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                            </div>
                           
                         
                      
@@ -118,72 +100,7 @@
                             </div>
                         </div>
                     </div>
-                    <!-- //option Start Here -->
-                    <div id="option" class="tab-pane fade">
-                        <div class="option-section">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="table option">
-                                        <table class="tbllOption table table-bordered">
-                                            <thead>
-                                                <th>Product Code<span style="color: red"> *</span></th>
-												<th>Unit of Quantity<span style="color: red"> *</span></th>
-                                                <th>Description<span style="color: red"> *</span></th>
-                                                <th> </th>
-                                            </thead>
-                                            <tbody>
-                                                <tr class="clonemeOption">
-                                                    <td class="attribute-box">
-                                                        <div class="input-attribute">
-                                                          <input type="text" name="sub_product_code[]" required /> 
-                                                        </div>
-                                                    </td>
-													
-													 <td class="attribute-box">
-                                                        <div class="input-attribute">
-                                                          <input type="text" name="sub_product_quantity[]" required /> 
-                                                        </div>
-                                                    </td>
-													
-													
-                                                    <td class="test">
-
-                                                        <div class="select-value-table">
-                                                            <input type="text" name="sub_product_description[]" required /> 
-                                                        </div>
-
-                                                    </td>
-                                                    <td align="right">
-                                                        <div class="minus-btn-table">
-                                                            <div class="rmv-cloneOption">-</div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <table class="table table-bordered" style="margin-top: -20px; border-top: none;">
-                                            <tbody>
-                                                <tr align="right">
-                                                    <td style="border-top: none;">
-                                                        <div class="plus-btn-table">
-                                                            <div class="addjobOption">+</div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-            
-
-
-
-
-
-
+               
                 </div>
                 <div class="form-field-here text-center" style="margin-top: 20px">
                    

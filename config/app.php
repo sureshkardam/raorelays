@@ -14,7 +14,15 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
-
+	
+	'unit' => [
+								
+								'1'=> 'Meter',
+								'2'=> 'Gram'
+								
+		],
+	
+	
     /*
     |--------------------------------------------------------------------------
     | Application Environment

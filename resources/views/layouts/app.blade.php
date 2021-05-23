@@ -32,6 +32,9 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/css/bootstrapValidator.min.css"/>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.2/js/bootstrapValidator.min.js"></script>
 
+<script src="{{asset('admin/js/select2.min.js')}}" type="text/javascript"></script>
+ <link rel="stylesheet" href="{{ asset('admin/css/select2.min.css') }}">
+
 </head>
 
 <body>
@@ -50,7 +53,14 @@
           
 </div>
 
+<script>
+        $(document).ready(function(){
+            
+            // Initialize select2
+            $("#selUser").select2();
 
+        });
+        </script>
 
  <script>
 
@@ -64,6 +74,9 @@
 
           $('.menu-here > .nav li.active').each(function(){
             $(this).closest('li.dropdown').addClass('active-parent-main');
+			
+			
+			
         });
     </script>
 
@@ -138,7 +151,7 @@ that.html(htm);
 		//alert(id);
 		swal({
   title: "Are you sure?",
-  text: "Your will not be able to recover "+email+" Record!",
+  text: "You will not be able to retrieve the record once deleted",
   type: "warning",
   showCancelButton: true,
   confirmButtonClass: "btn-danger",
@@ -180,57 +193,6 @@ function(){
 }
     
 </script>
-<script>
-	function deleteConfirm(type,id,email){
-		//alert(email);
-		//alert(id);
-		swal({
-  title: "Are you sure?",
-  text: "Your will not be able to recover "+email+" Record!",
-  type: "warning",
-  showCancelButton: true,
-  confirmButtonClass: "btn-danger",
-  confirmButtonText: "Yes, delete it!",
-  closeOnConfirm: false
-},
-function(){
-  
-  
-  if(type && id){
-			$.ajax({
-           type: "GET",
-           url:"{{route('delete.record')}}?type="+type+"&id="+id,
-           success:function(data){      
-				
-            	 
-               
-               if(data.success==1){
-                            swal("Deleted!", data.msg, "success");
-							location.reload();
-		  						}else
-									
-									{
-							swal("Error!", data.msg, "error");			
-										
-									}
-                    
-        
-           }
-        });
-			}
-  
-  
-  
-  
-  
-  
-});
-}
-    
-</script>	
-	
-	
-
 
 </body>
 

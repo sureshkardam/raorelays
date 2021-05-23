@@ -7,6 +7,7 @@
            
             <div class="form-content ">
                 <h2>Sign Into Your Account</h2>
+				 @include('toast')
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     <div class="form-field input-group">

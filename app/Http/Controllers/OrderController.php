@@ -25,6 +25,7 @@ use App\OrderOption;
 use App\Company;
 use App\Plant;
 use App\SubProduct;
+use App\Category;
 
 
 
@@ -83,28 +84,33 @@ public function createOrder(Request $request){
       
       $company=Company::where('id','=',1)->first();
 	  $plants=Plant::where('status','=',1)->get();
+	  $main_category=Category::getRootCategory();
 
   if ($request->isMethod('get')) {
       
-     return view('admin.order.create',compact('company','plants'));
+     return view('admin.order.create',compact('company','plants','main_category'));
 
   }else{
 			 
+			
 			/*
 			echo"<pre>";
 			print_r($request->all());
 			exit;
 			*/
+			
 			$errors      = false;
             $errorMsg    = array();
 			
 			
-            $product_ids = $request->input('product_ids');
+            $product_ids = $request->input('parent_id');
+			$cust_id = $request->input('customer_id');
             $qty = $request->input('qty');
             $specification = $request->input('specification');
 			$comment = $request->input('comment');
 			$plant = $request->input('plant');
-			$cust_id = $request->input('customer_id');
+			
+			
 			
 			
 			
@@ -194,9 +200,9 @@ return redirect()->back()->withInput($request->input())->with('OrderErrorMessage
 												'product_id' => $res['product_id'],
 												'quantity' => $res['qty'],
 												'specification' => $res['specification'],
-												'comment' => $res['comment'],
+												'comment' => $res['comment']
 												//'name' => \App\Product::getName($res['product_id']),
-												'sku' => \App\SubProduct::getCode($res['product_id']),
+												//'sku' => \App\SubProduct::getCode($res['product_id']),
 												
 											));
 
@@ -226,6 +232,13 @@ return redirect()->back()->withInput($request->input())->with('OrderErrorMessage
 					}
 					
 					$order->save();
+					
+					$event_description= 'Order# '.$order->display_order_id.' Created for Customer: '.$customer->contact_name;	
+					
+					
+					\App\Http\Controllers\ActivityController::createEvent('Order',$order->id,'Create',$event_description); 
+					
+					
 					
 					
 					
@@ -265,7 +278,7 @@ public function editOrder(Request $request,$id){
 			
 			
             $order_id = $request->input('order_id');
-			$product_ids = $request->input('product_ids');
+			$product_ids = $request->input('parent_id');
             $qty = $request->input('qty');
             $specification = $request->input('specification');
 			$comment = $request->input('comment');
@@ -366,7 +379,7 @@ if($count > 0)
 												'specification' => $res['specification'],
 												'comment' => $res['comment'],
 												//'name' => \App\Product::getName($res['product_id']),
-												'sku' => \App\SubProduct::getCode($res['product_id']),
+												//'sku' => \App\SubProduct::getCode($res['product_id']),
 												
 											));
 
@@ -396,6 +409,10 @@ if($count > 0)
 					}
 					
 					$order->save();
+					
+					$event_description= 'Order# '.$order->display_order_id.' Edited for Customer: '.$customer->contact_name;	
+					
+					\App\Http\Controllers\ActivityController::createEvent('Order',$order->id,'Edit',$event_description); 
 					
 					
 					
@@ -487,6 +504,13 @@ public function editOrderStatus(Request $request){
 				$order->order_status_id=$order_status_id;
 				$order->schedule_date=$schedule_date;
 				$order->save();
+				
+				$event_description= 'Order# '.$order->display_order_id.' Status Changed to: '.OrderStatus::getName($order->order_status_id);	
+					
+					\App\Http\Controllers\ActivityController::createEvent('Order',$order->id,'Edit',$event_description); 
+				
+				
+				
 				return redirect()->back()->with('success', 'Order History Added!');
 				
 		

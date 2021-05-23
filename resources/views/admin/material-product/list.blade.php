@@ -10,7 +10,7 @@
         </li>
         <li class="link-home"><a href="#."><i class="fa fa-home"></i></a></li>
         <li class="link-home"><a href="#.">Home</a></li>
-        <li class="link-page"><a href="#.">Material Product List</a></li>
+        <li class="link-page"><a href="#.">Raw Material List</a></li>
     </ul>
     <div class="create-button">
         <a href="{{route('admin.material.product.create')}}"><i class="fa fa-plus"></i></a>
@@ -55,7 +55,7 @@
 
     <div class="table-main-div">
         <div class="table-header">
-            <h2><strong>All Material Product</strong></h2>
+            <h2><strong>Raw Material List</strong></h2>
 			 <div class="create-button">
         <a href="{{route('admin.material.product.create')}}"><i class="fa fa-plus"></i></a>
         
@@ -87,10 +87,11 @@
                         <tr>
 
                             
-                            <th>Product Name</th>
-                            <th>SKU</th>
+                            <th>Name</th>
+							
+                            <th>Unit</th>
                             
-                            <th>Stock</th>
+                            <th>Quantity</th>
                             <th>Status</th>
                              <th>Created</th>
                             <th>Action</th>
@@ -104,7 +105,14 @@
                          
                            
                             <td>{{$product->name}}</td>
-                            <td width="100">{{$product->sku}}</td>
+							
+                            <td width="100">@if($product->unit == 1) Meter @endif
+							@if($product->unit == 2) Gram @endif</td>
+							
+							
+							
+							
+							
                             
                             <td>{{$product->quantity}}</td>
                             <td>{{$product->status ? 'Enabled' : 'Disabled' }}</td>

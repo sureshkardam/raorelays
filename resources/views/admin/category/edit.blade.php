@@ -5,11 +5,11 @@
                 <div class="breadcumbs-area">
                     <ul>
                         <li class="title-main">
-                            <h4>Edit Category</h4>
+                            <h4>Edit Product</h4>
                         </li>
                         <li class="link-home"><a href="#."><i class="fa fa-home"></i></a></li>
                         <li class="link-home"><a href="#.">Home</a></li>
-                        <li class="link-page"><a href="#.">Edit Category</a></li>
+                        <li class="link-page"><a href="#.">Edit Products</a></li>
                     </ul>
                     <!-- <div class="create-button">
                         <a title="Add New" href="#."><i class="fa fa-plus"></i></a>
@@ -18,7 +18,7 @@
                 <div class="content-main-here">
                     <div class="table-main-div" style="margin-top: 0px;">
                         <div class=" table-header ">
-                            <h2><strong>Edit Category</strong> </h2>
+                            <h2><strong>Edit Products</strong> </h2>
                         </div>
             @include('toast')
 
@@ -39,13 +39,6 @@
                       <form action="{{route('admin.category.edit',['id'=>$category_data->id])}}" id="popForm" method="post" enctype="multipart/form-data">
                         @csrf
                    
-
-                        
-						
-						
-						
-						
-                       
                         <div class="form-group row">
 
                         <div class="form-group col-sm-6">
@@ -54,75 +47,57 @@
                                   <span class="label label-danger">{{$errorMessage}}</span>
                                   @endforeach
                                     @endif
-                                <label class="input-label">Name</label>
+                                <label class="input-label">Name<span style="color: red">*</span></label>
                                 <input type="text" class="form-control" name="name" value="{{$category_data->name}}" required>
                             </div>
+							
+							
+							 <div class="form-group col-sm-6">
+						                  @if(Session::has('CategoryeditErrors'))
+                                    @foreach(Session::get('CategoryeditErrors')->get('Code') as $errorMessage)
+                                  <span class="label label-danger">{{$errorMessage}}</span>
+                                  @endforeach
+                                    @endif
+                                <label class="input-label">Code<span style="color: red">*</span></label>
+                                <input type="text" class="form-control" name="code" value="{{$category_data->code}}" required>
+                            </div>
 
-                     
+							
+							<div class="form-group col-sm-12">
+                                 @if(Session::has('CategoryCreateErrors'))
+                                    @foreach(Session::get('CategoryCreateErrors')->get('Description') as $errorMessage)
+                                    <span class="label label-danger">{{$errorMessage}}</span>
+                                  @endforeach
+                                    @endif
+                                <label class="input-label">Description<span style="color: red">*</span></label>
+                              
+							   
+							    <input type="text" class="form-control" name="description" value="{{$category_data->description}}" required>
+                            </div>
                                
                         </div>
 
-                           
+                       
+						 <div class="form-group row">
 
-
-                            <div class="form-group row">
                          
+						 
+						  <div class="form-group col-sm-12">
                             
-                               
-
-
-                      
-                 
-                        </div>
-                 
-
-                      
-                 
-                         <div class="form-group row">
-                         <div class="form-group col-sm-12">
-                            
-                                <label class="input-label">Parent Category</label>
-                                <select name="parent_id" class="form-control" required>
-                                    <option value="0">Select Parent Category</option>
+                                <label class="input-label">Select Parent Category or leave blank for Root Category</label>
+                               <select size="100" class="form-control  for-multiple select-form" name="parent_id" >
+                                    
                                     @foreach($categories as $category)
                                     
-                                    <option value="{{$category->category_id}}" @if($category_data->parent_id==$category->category_id) selected @endif>{{$category->name}}</option>
+                                    @if($category_data->id <> $category->category_id)
+									<option value="{{$category->category_id}}" @if($category_data->parent_id==$category->category_id) selected @endif>{{$category->name}}</option>
+								    @endif
                                     @endforeach
                                     
                                 </select>
                                 
                             </div>
-                        </div>
-                     
-                 
-                           <div class="form-group row">
-                        <div class="form-group col-sm-12">
-                             @if(Session::has('CategoryeditErrors'))
-                                    @foreach(Session::get('CategoryeditErrors')->get('Description') as $errorMessage)
-                                  <span class="label label-danger">{{$errorMessage}}</span>
-                                  @endforeach
-                                    @endif
-                            <label for="first name" style="top:-20px" class="hello">Description
-                           <span style="color: red">*</span>
-                            </label>
-                           <!--  <input type="text" class="form-control" id="description" value="{{$category_data->description}}" 
-                                name="description" placeholder=""> -->
-                                <textarea rows="4" cols="50" class="form-control" name="description">{{$category_data->description}}</textarea required>
-                               
-
-                        </div>
-                        </div>
-
-						
-						
-						
-						 <div class="form-group row">
-
-                         <div class="form-group col-sm-6">
-                                        
-                                <label class="input-label">Sort Order<span style="color: red">*</span></label>
-                                <input type="text" class="form-control" value="{{$category_data->sort_order}}" name="sort_order">
-                            </div>
+							
 						 <div class="form-group col-sm-6">
                      
                                 <label class="input-label">Status</label>
@@ -148,7 +123,7 @@
                         <div class="col-sm-12">
                             <div class="form-group form-check col-sm-12 text-center">
                          
-                           <button type="submit" class="btn blue">Update</button>
+                           <button type="submit" class="btn blue">Save Product</button>
                         </div>
                         </div>
 						</div>
@@ -161,12 +136,6 @@
                 </div>
             </div>
      
-
-<script type="text/javascript"></script>
- <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
-                            <script>
-                        CKEDITOR.replace( 'description' );
-                </script>    
 
 
 @endsection

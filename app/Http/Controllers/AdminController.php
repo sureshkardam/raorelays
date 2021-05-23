@@ -136,37 +136,30 @@ return redirect()->back()->withInput($request->input())->with('userErrorMessage'
 					
 					//activity for edit users
 					
-					$activity=array( 'module'=>'user',
-							'user_id'=>Auth::user()->id,
-							'field_key'=>'id',
-							'field_value'=>$user->id,
-							'event'=>'edit',
-							
-					);
-						  
-					\App\Http\Controllers\ActivityController::save($activity); 
 					
-					//end activity for edit users
-					
-					
-					//activity for archive users
-					
-					if($status==2)
-					{
-					$activity=array( 'module'=>'user',
-							'user_id'=>Auth::user()->id,
-							'field_key'=>'status',
-							'field_value'=>$status,
-							'event'=>'edit',
-							
-					);
-						  
-					\App\Http\Controllers\ActivityController::save($activity); 	
 						
+					$event_description= 'Details Were edited for User: '.$user->name;	
+					
+					\App\Http\Controllers\ActivityController::createEvent('User',$user->id,'Edit',$event_description); 
+					
+					
+					if($status==0)
+					{					
+					$event_description= 'Status Disabled for User: '.$user->name;	
+					
+						
+					}else if($status==1)
+					{					
+					$event_description= 'Status Enabled for User: '.$user->name;	
+					
+					}else if($status==2)
+					{					
+					$event_description= 'Status Archived for User: '.$user->name;	
 					}
-					//end activity for archive users
 					
+					\App\Http\Controllers\ActivityController::createEvent('User',$user->id,'Edit',$event_description); 
 					
+					//end activity for users
 					
 					return redirect()->back()->with('success', 'User Successfully Updated!');
 		   }
@@ -254,18 +247,12 @@ return redirect()->back()->withInput($request->input())->with('userErrorMessage'
 												
 												 ));
 					
-					//activity for create users
-					$activity=array( 'module'=>'user',
-							'user_id'=>Auth::user()->id,
-							'field_key'=>'id',
-							'field_value'=>$user->id,
-							'event'=>'create',
-							
-                          );
-						  
-					\App\Http\Controllers\ActivityController::save($activity);
-					//end activity for create users
 					
+					//event	  
+					$event_description= 'New User Created: '.$user->name;	
+					
+					\App\Http\Controllers\ActivityController::createEvent('User',$user->id,'Create',$event_description); 
+					//enent end
 					
 					return redirect()->back()->with('success', 'User Successfully Created!');
 		   }
@@ -331,15 +318,11 @@ return redirect()->back()->withInput($request->input())->with('userErrorMessage'
 			  $user->password=Hash::make($password);
 			   $user->save();
 			 
-				$activity=array( 'module'=>'user',
-							'user_id'=>Auth::user()->id,
-							'field_key'=>'id',
-							'field_value'=>$user->id,
-							'event'=>'change-password',
-							
-                  );
-						  
-					\App\Http\Controllers\ActivityController::save($activity); 
+					//event					  
+					$event_description= 'Password Changed for User: '.$user->name;	
+					
+					\App\Http\Controllers\ActivityController::createEvent('User',$user->id,'Password',$event_description); 
+					//event end
             
 			session()->flash('success', 'Successfully Updated!');
 			return redirect()->back();

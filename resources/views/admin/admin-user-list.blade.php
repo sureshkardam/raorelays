@@ -3,11 +3,11 @@
 <div class="breadcumbs-area with-label">
                     <ul>
                         <li class="title-main">
-                            <h4>Admin</h4>
+                            <h4>Admin Users</h4>
                         </li>
                         <li class="link-home"><a href="#."><i class="fa fa-home"></i></a></li>
                         <li class="link-home"><a href="#.">Home</a></li>
-                        <li class="link-page"><a href="#.">User List</a></li>
+                        <li class="link-page"><a href="#.">Admin Users</a></li>
                     </ul>
                     <div class="create-button">
                         <a title="Add New" href="{{route('create.user')}}"><i class="fa fa-plus"></i> Create User</a>
@@ -47,7 +47,7 @@
 
                     <div class="table-main-div">
                         <div class="table-header">
-                            <h2><strong>All Admin User</strong></h2>
+                            <h2><strong>Admin Users</strong></h2>
 							 <div class="create-button">
                         <a title="Add New" href="{{route('create.user')}}"><i class="fa fa-plus"></i> Create User</a>
                        

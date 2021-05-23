@@ -5,11 +5,11 @@
   <div class="breadcumbs-area">
                     <ul>
                         <li class="title-main">
-                            <h4>Categories</h4>
+                            <h4>Product Main Category List</h4>
                         </li>
                         <li class="link-home"><a href="#."><i class="fa fa-home"></i></a></li>
                         <li class="link-home"><a href="#.">Home</a></li>
-                        <li class="link-page"><a href="#.">Categories List</a></li>
+                        <li class="link-page"><a href="#.">Product Main Category List</a></li>
                     </ul>
                     <div class="create-button">
                         <a title="Add New" href="{{route('admin.category.create')}}"><i class="fa fa-plus"></i></a>
@@ -22,7 +22,7 @@
 
                     <div class="table-main-div mt-0">
                         <div class="table-header">
-                            <h2><strong>All Categories</strong></h2>
+                            <h2><strong>Product Main Category List</strong></h2>
 							 <div class="create-button">
                         <a title="Add New" href="{{route('admin.category.create')}}"><i class="fa fa-plus"></i></a>
                         
@@ -44,8 +44,8 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Status</th>
-                                        <th>Created</th>
-                                         <th>Sort Order</th>
+                                       
+                                        
                                         <th>Action</th>
                                        
                                     </tr>
@@ -53,17 +53,23 @@
                                 <tbody>
                                   @foreach($categories as $category)
                                   <tr>
-                                    <td>{{$category->name}}</td> 
-                                    <td>{{\App\Category::getCategoryStatus($category->category_id)  ? 'Enabled' : 'Disabled'}}</td>
-                                    <td>{{\App\Category::getCreated($category->category_id)}}</td>
-                                    <td>{{App\Category::getSortOrder($category->category_id)}}</td>
-                                           
-                                    <td><a href="{{route('admin.category.edit',['id'=>$category->category_id])}}" ><i class="fa fa-pencil" aria-hidden="true" title="Edit"></i></a>
+                                    <td><a href="{{route('admin.subcategory.category.list',['id'=>$category->id])}}">{{$category->name}}</a></td> 
+                                    <td>{{\App\Category::getCategoryStatus($category->id)  ? 'Enabled' : 'Disabled'}}</td>
+                                   
+                                   
+                                    <td><a href="{{route('admin.category.edit',['id'=>$category->id])}}" ><i class="fa fa-pencil" aria-hidden="true" title="Edit"></i></a>
                                       
                                
 
 
-                                 <a onclick="deleteConfirm('category',{{$category->category_id}},'{{$category->name}}')"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a> </td> 
+                                 <a class="gap" onclick="deleteConfirm('category',{{$category->id}},'{{$category->name}}')"><i class="fa fa-trash" aria-hidden="true" title="Delete"></i></a>
+								 
+								 
+								<!-- <a href="{{route('admin.category.edit',['id'=>$category->category_id])}}" ><i class="fa fa-list" aria-hidden="true" title="Raw Material"></i>Raw Material</a>-->
+                                      
+                               
+									
+								 </td> 
                                     
                                     </tr>
                                     @endforeach
@@ -80,18 +86,5 @@
     </div>
   
   
- 
- 
-@endsection
-
-@section('script')
-
-bootstrapValidate('#addName','alpha:Enter Valid attribute Name!');
-bootstrapValidate('#addattribute','alpha:Enter Valid attribute Code!');
-bootstrapValidate('#addPhonecode','numeric:Enter Valid Phone Code!');
-bootstrapValidate('#editattributename','alpha:Please Check Your attribute Name!');
-bootstrapValidate('#editattributecode','alpha:Please Check Your attribute Code!');
-bootstrapValidate('#editPhonecode','numeric:Please Check Your Phone Code!');
-
 
 @endsection

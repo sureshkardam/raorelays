@@ -44,6 +44,8 @@ select::-webkit-scrollbar {
     right: 10px;
 }
 
+
+
 select::-webkit-scrollbar-track {
     border-radius: 0px;
     background-color: #fff;
@@ -163,7 +165,7 @@ form {
 }
 
 .main-wrapper .left-sidebar-logo {
-    width: 20%;
+    width: 25%;
     background: #fff;
 	
 	/* suresh - rgba(0,0,0,.1)*/
@@ -7233,3 +7235,135 @@ display:none;
 }
 
 .form-control.plant option { background-color:#efefef; }
+
+.table.option.product-add select {
+    height: 45px;
+}
+
+a.gap {
+    padding: 0px 10px;
+}
+
+.admin-area-here div#inputtext {
+    margin-left: -5px;
+}
+.admin-area-here div#inputtext .dynamic {
+    margin-bottom: 11px;
+}
+.form-group.row.back-grey {
+    background: #eee;
+    margin: 1px;
+    padding-top: 13px;
+}
+
+.admin-area-here .table.option.product-add button.removeArea {
+    position: relative;
+    right: 0;
+}
+
+/*has multi menu css */
+
+li.dropdown.has-multi-menu.open > a {
+    background: #024282;
+    color: #fff;
+}
+.dropdown.has-multi-menu .dropdown-menu.hass label {
+    color: #4a4a4a;
+}
+li.dropdown.dropdown-submenu.open label {
+    color: #fff !important;
+}
+
+li.dropdown.has-multi-menu li.dropdown.dropdown-submenu>a:before {
+	display:none;
+}
+ul.dropdown-menu.hass li.dropdown.dropdown-submenu span.fa.fa-plus:before {
+    content: "\f067";
+}
+ul.dropdown-menu.hass li.dropdown.dropdown-submenu.open span.fa.fa-plus:before {
+    content: "\f068";
+}
+.has-multi-menu ul.dropdown-menu.hass {
+    position: relative;
+    border: none;
+    padding: 0;
+    float: inherit;
+    min-width: inherit;
+    margin: 0;
+    box-shadow: inherit;
+    top: inherit;
+}
+.has-multi-menu ul.dropdown-menu.hass {
+    padding-left: 10px;
+    background: #fff;
+    padding-right: 0px;
+    padding-top: 3px;
+}
+.has-multi-menu ul.dropdown-menu.hass li.dropdown.dropdown-submenu.open > a {
+    background: #3378bd;
+    color: #fff;
+}
+/* end has multi menu css */
+
+body .select2-container--default .select2-selection--multiple {
+    background-color: white;
+    cursor: text;
+    width: 100%;
+    border-radius: 0;
+    height: 40px;
+    border: solid 1px #ddd;
+}
+body .select2-container--default .select2-selection--multiple {
+    border: 1px solid #dcdcdc;
+
+}
+body .select2-container--default .select2-selection--multiple .select2-selection__rendered {
+    padding: 4px 5px;
+    height: 40px;
+}
+body .select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: 1px solid #dddd;
+	  height: 40px;
+    border-radius: 0px;
+}
+
+body .select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #444;
+    line-height: 38px;
+    height: 40px;
+}
+body .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px;
+}
+a.dropdown-toggle.btnMore {
+    background: #1aab33;
+    color: #fff;
+    padding: 6px 7px;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 700;
+text-decoration:none;
+}
+a.dropdown-toggle.btnMore:hover {
+    background: #138827;
+}
+a.dropdown-toggle.btnMore i {
+    color: #fff !important;
+    font-size: 18px;
+    margin-left: 3px;
+}
+
+.order-inline label.order {
+    display: block;
+}
+
+.form-group.row.back-grey {
+    margin-bottom: 20px;
+}
+.order-inline p {
+    margin: 0;
+    display: inline-block;
+    margin-bottom: 2px;
+    margin-right: 2px;
+}

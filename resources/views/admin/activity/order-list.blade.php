@@ -70,13 +70,10 @@
                                     <tr>
                                         <th>Module</th>
 										<th>Event</th>
-                                       	<th>Key</th>
-										<th>Value</th>
+                                       	<th>Description</th>
 										<th>Created By</th>
-										 <th>Created Date</th>
-                                        
-                                       
-                                       
+										<th>Created Date</th>
+                                     
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -85,11 +82,8 @@
                                         
 										<td>{{$activity->module}}</td>
                                         <td>{{$activity->event}}</td>
-										<td>{{$activity->field_key}}</td>
-										<td>{{$activity->field_value}}</td>
-										
-										<td>{{App\User::getName($activity->user_id)}}</td>
-																		
+										<td>{{$activity->description}}</td>
+										<td>{{App\User::getName($activity->created_by)}}</td>
 										<td>{{date('M\. d\, Y', strtotime($activity->created_at))}}</td>
 										  
                                     </tr>
